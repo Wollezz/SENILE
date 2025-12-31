@@ -49,7 +49,7 @@ for (file in files){
                                                 "_shapiro_test.txt"))
     writeLines(capture.output(risultato_test), output_file)
 
-    # Eseguiamo il plot della distribuzione dei dati con la curva gaussiana
+    # Eseguiamo e salviamo il plot della distribuzione dei dati con la curva gaussiana
     # sovrapposta
     png_filename <- file.path(output_dir,
                               paste0(sub(".csv", "", basename(file)),
@@ -63,7 +63,7 @@ for (file in files){
     curve(dnorm(x, mean = mu, sd = sigma), col = "blue", lwd = 2, add = TRUE)
     dev.off()
 
-    # Eseguiamo il QQ plot
+    # Eseguiamo e salviamo il QQ plot
     qqplot_filename <- file.path(output_dir,
                                  paste0(sub(".csv", "", basename(file)),
                                         "_", colonna, "_qqplot.png"))
