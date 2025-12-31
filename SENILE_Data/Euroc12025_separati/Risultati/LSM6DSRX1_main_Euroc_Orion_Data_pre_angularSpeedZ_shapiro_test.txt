@@ -1,0 +1,6 @@
+
+	Shapiro-Wilk normality test
+
+data:  dati_selezionati[[colonna]]
+W = 0.89665, p-value < 2.2e-16
+
