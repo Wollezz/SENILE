@@ -121,26 +121,7 @@ for (file in files) {
     # ANALISI PRINCIPALE: Fit delle tre distribuzioni
     model_result <- compare_distributions(x_centered, colonna)
 
-    # Shapiro-Wilk test sui dati senza outlier per completezza
-    # Il test di Shapiro-Wilk è molto sensibile alle dimensioni del campione.
-    # Con campioni molto grandi, anche piccole deviazioni dalla normalità
-    # possono risultare in un rifiuto dell'ipotesi nulla. Eseguendo il test
-    # su un campione più piccolo (100 dati) si ottiene una valutazione più
-    # permissiva della normalità dei dati.
-    # Per alcuni esempi si fa riferimento al seguente link:
-    # https://statorials.com/shapiro-wilk-test-in-r/
-    # Si segnala che la fonte non è accademica e quindi non è ritenuta
-    # completamente affidabile.
-    shapiro_result <- shapiro.test(tail(x_clean,
-                                        min(100, length(x_clean))))
-    cat("\n--- TEST DI SHAPIRO-WILK SU 100 DATI SENZA OUTLIER ---\n")
-    print(shapiro_result)
-    shapiro_result <- shapiro.test(tail(x_clean,
-                                        min(5000, length(x_clean))))
-    cat("\n--- TEST DI SHAPIRO-WILK SU 5000 DATI SENZA OUTLIER ---\n")
-    print(shapiro_result)
-
-    # Creazione e salvataggio dei plot (istogramma + fit, QQ-plot)
+    # Creazione e salvataggio dei plot (istogramma + fit, QQ-plot, boxplot)
     # Istogramma con curva gaussiana sovrapposta
     png_filename <- file.path(output_dir,
                               paste0(sub(".csv", "", basename(file)),
@@ -161,6 +142,14 @@ for (file in files) {
     png(qqplot_filename)
     qqnorm(x_clean, main = paste("QQ Plot di", colonna))
     qqline(x_clean, col = "red")
+    dev.off()
+
+    # Boxplot (dati con outlier)
+    boxplot_filename <- file.path(output_dir,
+                                  paste0(sub(".csv", "", basename(file)),
+                                         "_", colonna, "_boxplot.png"))
+    png(boxplot_filename)
+    boxplot(x_raw, main = paste("Boxplot di", colonna))
     dev.off()
   }
 
